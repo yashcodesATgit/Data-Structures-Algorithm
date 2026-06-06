@@ -1,12 +1,28 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    bool check(vector<int>& nums) {
-        for (int i = 1; i < nums.size(); i++) {
+    bool checkSorted(vector<int>& nums) {
+        for (size_t i = 1; i < nums.size(); i++) {
+            // If a previous element is greater, it's not sorted
             if (nums[i] < nums[i - 1]) {
                 return false;
             }
         }
-
         return true;
     }
 };
+
+int main() {
+    Solution solver;
+    vector<int> sortedArr = {10, 20, 30, 40};
+    vector<int> unsortedArr = {10, 30, 20, 40};
+    
+    cout << "Is sortedArr sorted? " << (solver.checkSorted(sortedArr) ? "Yes" : "No") << endl;
+    cout << "Is unsortedArr sorted? " << (solver.checkSorted(unsortedArr) ? "Yes" : "No") << endl;
+    
+    return 0;
+}

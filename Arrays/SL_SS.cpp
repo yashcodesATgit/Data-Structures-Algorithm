@@ -1,44 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
 class Solution {
-private:
-    int secondLargest(vector<int>& a, int n) {
-        int largest = a[0];
-        int slargest = -1;
-
-        for (int i = 1; i < n; i++) {
-            if (a[i] > largest) {
-                slargest = largest;
-                largest = a[i];
-            }
-            else if (a[i] < largest && a[i] > slargest) {
-                slargest = a[i];
-            }
-        }
-
-        return slargest;
-    }
-
-    int secondSmallest(vector<int>& a, int n) {
-        int smallest = a[0];
-        int ssmallest = INT_MAX;
-
-        for (int i = 1; i < n; i++) {
-            if (a[i] < smallest) {
-                ssmallest = smallest;
-                smallest = a[i];
-            }
-            else if (a[i] != smallest && a[i] < ssmallest) {
-                ssmallest = a[i];
-            }
-        }
-
-        return ssmallest;
-    }
-
 public:
-    vector<int> getSecondOrderElements(int n, vector<int>& a) {
-        int slargest = secondLargest(a, n);
-        int ssmallest = secondSmallest(a, n);
+    vector<int> getSecondOrderElements(vector<int>& nums) {
+        if (nums.size() < 2) return {-1, -1}; // Edge case
 
-        return {slargest, ssmallest};
+        int largest = INT_MIN, secondLargest = INT_MIN;
+        int smallest = INT_MAX, secondSmallest = INT_MAX;
+
+        for (int i = 0; i < nums.size(); i++) {
+            // Find Second Largest
+            if (nums[i] > largest) {
+                secondLargest = largest;
+                largest = nums[i];
+            } else if (nums[i] > secondLargest && nums[i] != largest) {
+                secondLargest = nums[i];
+            }
+
+            // Find Second Smallest
+            if (nums[i] < smallest) {
+                secondSmallest = smallest;
+                smallest = nums[i];
+            } else if (nums[i] < secondSmallest && nums[i] != smallest) {
+                secondSmallest = nums[i];
+            }
+        }
+
+        return {secondLargest, secondSmallest};
     }
 };
+
+int main() {
+    Solution solver;
+    vector<int> nums = {12, 35, 1, 10, 34, 1};
+
+    vector<int> result = solver.getSecondOrderElements(nums);
+
+    cout << "Second Largest: " << result[0] << endl;
+    cout << "Second Smallest: " << result[1] << endl;
+
+    return 0;
+}
